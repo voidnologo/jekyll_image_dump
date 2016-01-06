@@ -19,7 +19,7 @@ class TestTest(unittest.TestCase):
         self.clean_files(self.test_dir)
         os.rmdir(self.test_dir)
 
-    def test_renumbers_files_to_start_at_0(self):
+    def test_renumbers_files_default_start_at_0(self):
         images = os.listdir(self.source_files_path)
         # --before
         self.assertEqual('90.png', images[0])
@@ -30,19 +30,6 @@ class TestTest(unittest.TestCase):
         # --after
         renumber_file_names(self.source_files_path)
         images = os.listdir(self.source_files_path)
-        self.assertEqual('0.png', images[0])
-        self.assertEqual('1.png', images[1])
-        self.assertEqual('2.png', images[2])
-        self.assertEqual('3.png', images[3])
-        self.assertEqual('4.png', images[4])
-
-    def test_renumber_files_will_place_renumbered_files_in_specified_location(self):
-        new_path = os.path.join(self.test_dir, 'new_files')
-        self.assertFalse(os.path.exists(new_path))
-        # --create directory and place renumbered files in it
-        renumber_file_names(self.source_files_path, destination=new_path)
-        self.assertTrue(os.path.exists(new_path))
-        images = os.listdir(new_path)
         self.assertEqual('0.png', images[0])
         self.assertEqual('1.png', images[1])
         self.assertEqual('2.png', images[2])
@@ -65,6 +52,19 @@ class TestTest(unittest.TestCase):
         self.assertEqual('52.png', images[2])
         self.assertEqual('53.png', images[3])
         self.assertEqual('54.png', images[4])
+
+    def test_renumber_files_will_place_renumbered_files_in_specified_location(self):
+        new_path = os.path.join(self.test_dir, 'new_files')
+        self.assertFalse(os.path.exists(new_path))
+        # --create directory and place renumbered files in it
+        renumber_file_names(self.source_files_path, destination=new_path)
+        self.assertTrue(os.path.exists(new_path))
+        images = os.listdir(new_path)
+        self.assertEqual('0.png', images[0])
+        self.assertEqual('1.png', images[1])
+        self.assertEqual('2.png', images[2])
+        self.assertEqual('3.png', images[3])
+        self.assertEqual('4.png', images[4])
 
     def clean_files(self, start_path):
         for item in os.listdir(start_path):
